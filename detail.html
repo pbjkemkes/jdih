@@ -336,14 +336,18 @@ item = item.trim();
 
 if(item !== ""){
 
-// Jika "Dicabut dengan"
-if(item.toLowerCase().startsWith("dicabut")){
+// Jika "Dicabut dengan" atau "Diubah dengan"
+if(
+item.toLowerCase().startsWith("dicabut") ||
+item.toLowerCase().startsWith("diubah")
+){
 
 if(listStarted){
 html += "</ol>";
 listStarted = false;
 }
 
+// Tambah spasi 1 baris
 html += item + "<br><br>";
 
 }
@@ -392,8 +396,7 @@ document.getElementById("hubungan").innerHTML =
 hubungan;
 
 }
-
-
+      
 // ================= DOKUMEN =================
 
 if(row["url"]){
