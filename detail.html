@@ -327,7 +327,6 @@ if(hubungan.includes("<br>")){
 let items = hubungan.split("<br>");
 
 let html = "";
-
 let listStarted = false;
 
 items.forEach(item => {
@@ -336,26 +335,47 @@ item = item.trim();
 
 if(item !== ""){
 
-// Kalau "Mencabut:"
-if(item.toLowerCase().includes("mencabut")){
+// Deteksi judul hubungan
+if(
+item.toLowerCase().startsWith("dicabut") ||
+item.toLowerCase().startsWith("diubah") ||
+item.toLowerCase().startsWith("mencabut") ||
+item.toLowerCase().startsWith("mengubah")
+){
 
-html += item + "<br>"; // tidak double
+// Tutup list sebelumnya jika ada
+if(listStarted){
+html += "</ol>";
+listStarted = false;
+}
+
+html += item + "<br><br>";
+
+}
+
+// Deteksi numbering (1. 2. 3.)
+else if(/^\d+\./.test(item)){
+
+if(!listStarted){
+
 html += "<ol>";
-
 listStarted = true;
 
-// Kalau "Dicabut dengan"
-}else if(item.toLowerCase().includes("dicabut")){
+}
 
-html += item + "<br><br>"; // tambah 1 baris kosong
-
-}else{
-
-if(listStarted){
+// Hapus angka depan (1. , 2. dst)
+item = item.replace(/^\d+\.\s*/, "");
 
 html += "<li>" + item + "</li>";
 
-}else{
+}
+
+else{
+
+if(listStarted){
+html += "</ol>";
+listStarted = false;
+}
 
 html += item + "<br>";
 
@@ -363,11 +383,9 @@ html += item + "<br>";
 
 }
 
-}
-
 });
 
-// Tutup list
+// Tutup list terakhir
 if(listStarted){
 html += "</ol>";
 }
