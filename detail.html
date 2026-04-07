@@ -96,11 +96,6 @@ Memuat...
 <table class="table table-bordered">
 
 <tr>
-<th>Nama Peraturan</th>
-<td id="nama"></td>
-</tr>
-
-<tr>
 <th>Jenis Peraturan</th>
 <td id="jenis"></td>
 </tr>
@@ -216,9 +211,7 @@ row["Nama Peraturan"] || row["Tentang"];
 let namaPeraturan =
 row["Nama Peraturan"] || row["Tentang"];
 
-document.getElementById("judul").innerHTML =
-"<i class='fa fa-file-alt'></i> " +
-namaPeraturan;
+document.getElementById("judul").innerHTML = namaPeraturan;
 
 // Optional: ubah juga title tab browser
 document.title = "JDIH Biro PBJ - " +namaPeraturan;
