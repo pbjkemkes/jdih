@@ -36,10 +36,11 @@ margin-top:20px;
 }
 
 .title{
-font-size:22px;
-font-weight:bold;
+font-size:20px;
+font-weight:600;
 margin-bottom:20px;
 color:#2c3e50;
+line-height:1.4;
 }
 
 .table th{
@@ -74,6 +75,17 @@ color:white;
 .badge-default{
 background:#6c757d;
 color:white;
+}
+
+/* ================= LIST HUBUNGAN ================= */
+
+#hubungan ol{
+padding-left:20px;
+margin-bottom:0;
+}
+
+#hubungan li{
+margin-bottom:5px;
 }
 
 </style>
@@ -201,73 +213,65 @@ return res.json();
 console.log("DATA:", row);
 
 
-// ================= JUDUL HALAMAN =================
+// ================= JUDUL =================
 
 let namaPeraturan =
-row["Nama Peraturan"] || row["Tentang"];
+row["Nama Peraturan"] || row["Tentang"] || "-";
 
-document.getElementById("judul").innerHTML = namaPeraturan;
+// Potong panjang judul
+let judulPendek =
+namaPeraturan.length > 120
+? namaPeraturan.substring(0,120) + "..."
+: namaPeraturan;
 
-// Optional: ubah juga title tab browser
-document.title = "JDIH Biro PBJ - " +namaPeraturan;
+// Judul halaman
+document.getElementById("judul").innerHTML =
+"<i class='fa fa-file-alt'></i> " +
+judulPendek;
+
+// Title tab browser
+document.title =
+"JDIH Biro PBJ - " + judulPendek;
 
 
-// Jenis
+// ================= DATA =================
 
 document.getElementById("jenis").innerHTML =
-row["Jenis/Bentuk Peraturan"];
-
-
-// Pemrakarsa
+row["Jenis/Bentuk Peraturan"] || "-";
 
 document.getElementById("pemrakarsa").innerHTML =
-row["Pemrakarsa"];
-
-
-// Nomor
+row["Pemrakarsa"] || "-";
 
 document.getElementById("nomor").innerHTML =
-row["Nomor"];
-
-
-// Tahun
+row["Nomor"] || "-";
 
 document.getElementById("tahun").innerHTML =
-row["Tahun"];
-
-
-// Tentang
+row["Tahun"] || "-";
 
 document.getElementById("tentang").innerHTML =
-row["Tentang"];
-
-
-// Tanggal
+row["Tentang"] || "-";
 
 document.getElementById("tanggal").innerHTML =
 row["Tanggal Penetapan"] || "-";
 
-
-// Pejabat
-
 document.getElementById("pejabat").innerHTML =
-row["Pejabat yang Menetapkan"];
+row["Pejabat yang Menetapkan"] || "-";
 
 
 // ================= STATUS BADGE =================
 
-let status = row["Status"] || "-";
+let status = (row["Status"] || "-").toLowerCase();
 
 let badge = "";
 
-if(status.toLowerCase() === "tidak berlaku"){
+if(status === "tidak berlaku"){
 
 badge =
 "<span class='badge-status badge-tidak'>Tidak Berlaku</span>";
 
 }
 
-else if(status.toLowerCase() === "berlaku"){
+else if(status === "berlaku"){
 
 badge =
 "<span class='badge-status badge-berlaku'>Berlaku</span>";
@@ -278,7 +282,7 @@ else{
 
 badge =
 "<span class='badge-status badge-default'>" +
-status +
+row["Status"] +
 "</span>";
 
 }
@@ -287,13 +291,39 @@ document.getElementById("status").innerHTML =
 badge;
 
 
-// Hubungan
+// ================= HUBUNGAN (NUMBERING) =================
+
+let hubungan =
+row["Hubungan antar Peraturan"] || "-";
+
+if(hubungan.includes("<br>")){
+
+let items = hubungan.split("<br>");
+
+let list = "<ol>";
+
+items.forEach(item => {
+
+if(item.trim() !== ""){
+list += "<li>" + item + "</li>";
+}
+
+});
+
+list += "</ol>";
 
 document.getElementById("hubungan").innerHTML =
-row["Hubungan antar Peraturan"];
+list;
+
+}else{
+
+document.getElementById("hubungan").innerHTML =
+hubungan;
+
+}
 
 
-// Dokumen
+// ================= DOKUMEN =================
 
 if(row["url"]){
 
