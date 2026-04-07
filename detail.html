@@ -1,159 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>Detail Peraturan</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link
-rel="stylesheet"
-href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-/>
-
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-/>
-
-<style>
-
-body{
-background:#f4f6f9;
-}
-
-.card{
-
-background:white;
-
-padding:25px;
-
-border-radius:10px;
-
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
-
-margin-top:20px;
-
-}
-
-.title{
-
-font-size:22px;
-
-font-weight:bold;
-
-margin-bottom:20px;
-
-color:#2c3e50;
-
-}
-
-.table th{
-
-width:250px;
-
-background:#f8f9fa;
-
-}
-
-.btn-back{
-
-margin-top:15px;
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="card">
-
-<div class="title">
-
-<i class="fa fa-file-alt"></i>
-Detail Peraturan
-
-</div>
-
-<table class="table table-bordered">
-
-<tr>
-<th>Nama Peraturan</th>
-<td id="nama"></td>
-</tr>
-
-<tr>
-<th>Jenis Peraturan</th>
-<td id="jenis"></td>
-</tr>
-
-<tr>
-<th>Pemrakarsa</th>
-<td id="pemrakarsa"></td>
-</tr>
-
-<tr>
-<th>Nomor</th>
-<td id="nomor"></td>
-</tr>
-
-<tr>
-<th>Tahun</th>
-<td id="tahun"></td>
-</tr>
-
-<tr>
-<th>Tentang</th>
-<td id="tentang"></td>
-</tr>
-
-<tr>
-<th>Tanggal Penetapan</th>
-<td id="tanggal"></td>
-</tr>
-
-<tr>
-<th>Pejabat yang Menetapkan</th>
-<td id="pejabat"></td>
-</tr>
-
-<tr>
-<th>Status</th>
-<td id="status"></td>
-</tr>
-
-<tr>
-<th>Hubungan Antar Peraturan</th>
-<td id="hubungan"></td>
-</tr>
-
-<tr>
-<th>Dokumen</th>
-<td id="dokumen"></td>
-</tr>
-
-</table>
-
-<a href="index.html" class="btn btn-default btn-back">
-
-<i class="fa fa-arrow-left"></i>
-Kembali ke Dashboard
-
-</a>
-
-</div>
-
-</div>
-
-
-
 <script>
 
 // ================= AMBIL ID =================
@@ -171,6 +15,80 @@ const id = getId();
 
 
 
+// ================= FORMAT TANGGAL =================
+
+function formatTanggal(tgl){
+
+if(!tgl) return "-";
+
+const bulanIndo = [
+
+"Januari",
+"Februari",
+"Maret",
+"April",
+"Mei",
+"Juni",
+"Juli",
+"Agustus",
+"September",
+"Oktober",
+"November",
+"Desember"
+
+];
+
+const date = new Date(tgl);
+
+if(isNaN(date)) return tgl;
+
+// gunakan UTC supaya tidak loncat tanggal
+
+const hari =
+date.getUTCDate();
+
+const bulan =
+bulanIndo[date.getUTCMonth()];
+
+const tahun =
+date.getUTCFullYear();
+
+return `${hari} ${bulan} ${tahun}`;
+
+}
+
+
+
+// ================= FORMAT STATUS =================
+
+function formatStatus(status){
+
+if(status == "Berlaku"){
+
+return `
+<span class="label label-success">
+Berlaku
+</span>
+`;
+
+}
+
+if(status == "Tidak Berlaku"){
+
+return `
+<span class="label label-danger">
+Tidak Berlaku
+</span>
+`;
+
+}
+
+return status;
+
+}
+
+
+
 // ================= URL API =================
 
 const url =
@@ -185,6 +103,8 @@ fetch(url)
 .then(res => res.json())
 
 .then(row => {
+
+console.log(row); // debug kalau error
 
 
 
@@ -230,10 +150,12 @@ row["Tentang"];
 
 
 
-// Tanggal
+// ================= TANGGAL (FORMAT BARU)
 
 document.getElementById("tanggal").innerHTML =
-row["Tanggal Penetapan"];
+formatTanggal(
+row["Tanggal Penetapan"]
+);
 
 
 
@@ -244,10 +166,12 @@ row["Pejabat yang Menetapkan"];
 
 
 
-// Status
+// ================= STATUS (BADGE)
 
 document.getElementById("status").innerHTML =
-row["Status"];
+formatStatus(
+row["Status"]
+);
 
 
 
@@ -258,7 +182,7 @@ row["Hubungan antar Peraturan"];
 
 
 
-// Dokumen
+// ================= DOKUMEN
 
 if(row["url"]){
 
@@ -272,10 +196,14 @@ document.getElementById("dokumen").innerHTML =
 
 }
 
+})
+
+.catch(error => {
+
+console.error(error);
+
+alert("Gagal memuat data detail");
+
 });
 
 </script>
-
-</body>
-
-</html>
