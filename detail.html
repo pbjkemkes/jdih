@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Detail Peraturan</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link
+rel="stylesheet"
+href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+/>
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+/>
+
+<style>
+
+body{
+background:#f4f6f9;
+}
+
+.card{
+
+background:white;
+
+padding:25px;
+
+border-radius:10px;
+
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+
+margin-top:20px;
+
+}
+
+.title{
+
+font-size:22px;
+
+font-weight:bold;
+
+margin-bottom:20px;
+
+color:#2c3e50;
+
+}
+
+.table th{
+
+width:250px;
+
+background:#f8f9fa;
+
+}
+
+.btn-back{
+
+margin-top:15px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<div class="title">
+
+<i class="fa fa-file-alt"></i>
+Detail Peraturan
+
+</div>
+
+<table class="table table-bordered">
+
+<tr>
+<th>Nama Peraturan</th>
+<td id="nama"></td>
+</tr>
+
+<tr>
+<th>Jenis Peraturan</th>
+<td id="jenis"></td>
+</tr>
+
+<tr>
+<th>Pemrakarsa</th>
+<td id="pemrakarsa"></td>
+</tr>
+
+<tr>
+<th>Nomor</th>
+<td id="nomor"></td>
+</tr>
+
+<tr>
+<th>Tahun</th>
+<td id="tahun"></td>
+</tr>
+
+<tr>
+<th>Tentang</th>
+<td id="tentang"></td>
+</tr>
+
+<tr>
+<th>Tanggal Penetapan</th>
+<td id="tanggal"></td>
+</tr>
+
+<tr>
+<th>Pejabat Penetap</th>
+<td id="pejabat"></td>
+</tr>
+
+<tr>
+<th>Status</th>
+<td id="status"></td>
+</tr>
+
+<tr>
+<th>Hubungan Antar Peraturan</th>
+<td id="hubungan"></td>
+</tr>
+
+<tr>
+<th>Dokumen</th>
+<td id="dokumen"></td>
+</tr>
+
+</table>
+
+<a href="dashboard.html" class="btn btn-default btn-back">
+
+<i class="fa fa-arrow-left"></i>
+Kembali ke Dashboard
+
+</a>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+// ================= AMBIL ID =================
+
+function getId(){
+
+const params =
+new URLSearchParams(window.location.search);
+
+return params.get("id");
+
+}
+
+const id = getId();
+
+
+
+// ================= URL API =================
+
+const url =
+"https://script.google.com/macros/s/AKfycbxz4T5u8G9R_mf43WjEnGBFhAWOIIiwSgNhZ0D9eqZyN3YQOnJjOY_oRoX_4CUIKV8kGQ/exec?id=" + id;
+
+
+
+// ================= LOAD DATA =================
+
+fetch(url)
+
+.then(res => res.json())
+
+.then(row => {
+
+
+
+// Nama
+
+document.getElementById("nama").innerHTML =
+row["Nama Peraturan"] || row["Tentang"];
+
+
+
+// Jenis
+
+document.getElementById("jenis").innerHTML =
+row["Jenis/Bentuk Peraturan"];
+
+
+
+// Pemrakarsa
+
+document.getElementById("pemrakarsa").innerHTML =
+row["Pemrakarsa"];
+
+
+
+// Nomor
+
+document.getElementById("nomor").innerHTML =
+row["Nomor"];
+
+
+
+// Tahun
+
+document.getElementById("tahun").innerHTML =
+row["Tahun"];
+
+
+
+// Tentang
+
+document.getElementById("tentang").innerHTML =
+row["Tentang"];
+
+
+
+// Tanggal
+
+document.getElementById("tanggal").innerHTML =
+row["Tanggal Penetapan"];
+
+
+
+// Pejabat
+
+document.getElementById("pejabat").innerHTML =
+row["Pejabat yang Menetapkan"];
+
+
+
+// Status
+
+document.getElementById("status").innerHTML =
+row["Status"];
+
+
+
+// Hubungan
+
+document.getElementById("hubungan").innerHTML =
+row["Hubungan antar Peraturan"];
+
+
+
+// Dokumen
+
+if(row["url"]){
+
+document.getElementById("dokumen").innerHTML =
+row["url"];
+
+}else{
+
+document.getElementById("dokumen").innerHTML =
+"<span style='color:red'>Dokumen belum tersedia</span>";
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>
