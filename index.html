@@ -3,67 +3,53 @@
 
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<title>Dashboard Peraturan</title>
+  <title>JDIH Biro PBJ</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link
-rel="stylesheet"
-href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-/>
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+  />
 
-<link
-rel="stylesheet"
-href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css"
-/>
+  <link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css"
+  />
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<style>
+  <style>
 
-body{
-background:#f4f6f9;
-}
+    body {
+      background: #f4f6f9;
+    }
 
-.card{
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
 
-background:white;
+    .stat-box {
+      text-align: center;
+    }
 
-padding:20px;
+    .stat-number {
+      font-size: 32px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
 
-border-radius:8px;
+    canvas {
+      max-height: 350px;
+    }
 
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
-
-margin-bottom:20px;
-
-}
-
-.stat-box{
-
-text-align:center;
-
-}
-
-.stat-number{
-
-font-size:32px;
-
-font-weight:bold;
-
-color:#2c3e50;
-
-}
-
-canvas{
-
-max-height:350px;
-
-}
-
-</style>
+  </style>
 
 </head>
 
@@ -71,127 +57,138 @@ max-height:350px;
 
 <div class="container-fluid">
 
-<h2>Dashboard Peraturan</h2>
+  <h2>JDIH Biro PBJ</h2>
 
-<br>
+  <br>
 
-<!-- ================= STATISTIK ================= -->
+  <!-- ================= STATISTIK ================= -->
 
-<div class="row">
+  <div class="row">
 
-<div class="col-md-4">
+    <div class="col-md-4">
 
-<div class="card stat-box">
+      <div class="card stat-box">
 
-Total Peraturan
+        Total Peraturan
 
-<div id="totalData" class="stat-number">0</div>
+        <div id="totalData" class="stat-number">
+          0
+        </div>
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-<div class="col-md-4">
+    <div class="col-md-4">
 
-<div class="card stat-box">
+      <div class="card stat-box">
 
-Status Berlaku
+        Status Berlaku
 
-<div id="totalBerlaku" class="stat-number">0</div>
+        <div id="totalBerlaku" class="stat-number">
+          0
+        </div>
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-<div class="col-md-4">
+    <div class="col-md-4">
 
-<div class="card stat-box">
+      <div class="card stat-box">
 
-Tidak Berlaku
+        Tidak Berlaku
 
-<div id="totalTidak" class="stat-number">0</div>
+        <div id="totalTidak" class="stat-number">
+          0
+        </div>
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-</div>
-
-
-
-<!-- ================= CHART ================= -->
-
-<div class="row">
-
-<div class="col-md-6">
-
-<div class="card">
-
-<h3>Peraturan per Tahun</h3>
-
-<canvas id="chartTahun"></canvas>
-
-</div>
-
-</div>
-
-
-<div class="col-md-6">
-
-<div class="card">
-
-<h3>Peraturan per Jenis</h3>
-
-<canvas id="chartJenis"></canvas>
-
-</div>
-
-</div>
-
-</div>
+  </div>
 
 
 
-<!-- ================= TABEL ================= -->
+  <!-- ================= CHART ================= -->
 
-<div class="row">
+  <div class="row">
 
-<div class="col-md-12">
+    <div class="col-md-6">
 
-<div class="card">
+      <div class="card">
 
-<h3>Daftar Semua Peraturan</h3>
+        <h3>
+          Peraturan per Tahun
+        </h3>
 
-<table
-id="tabelPeraturan"
-class="table table-striped table-bordered"
-style="width:100%"
->
+        <canvas id="chartTahun"></canvas>
 
-<thead>
+      </div>
 
-<tr>
+    </div>
 
-<th>No</th>
 
-<th>Nama Peraturan</th>
+    <div class="col-md-6">
 
-<th>Tahun</th>
+      <div class="card">
 
-<th>Status</th>
+        <h3>
+          Peraturan per Jenis
+        </h3>
 
-</tr>
+        <canvas id="chartJenis"></canvas>
 
-</thead>
+      </div>
 
-</table>
+    </div>
 
-</div>
+  </div>
 
-</div>
 
-</div>
 
+  <!-- ================= TABEL ================= -->
+
+  <div class="row">
+
+    <div class="col-md-12">
+
+      <div class="card">
+
+        <h3>
+          Daftar Semua Peraturan
+        </h3>
+
+        <table
+          id="tabelPeraturan"
+          class="table table-striped table-bordered"
+          style="width:100%"
+        >
+
+          <thead>
+
+            <tr>
+
+              <th>No</th>
+
+              <th>Nama Peraturan</th>
+
+              <th>Tahun</th>
+
+              <th>Status</th>
+
+            </tr>
+
+          </thead>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </div>
 
@@ -222,122 +219,136 @@ fetch(url)
 
 .then(result => {
 
-const data = result.data;
+  const data = result.data;
 
 
 
-// ================= STATISTIK =================
+  // ================= STATISTIK =================
 
-document.getElementById("totalData").innerText =
-data.length;
-
-
-
-let berlaku = 0;
-
-let tidak = 0;
+  document.getElementById("totalData").innerText =
+    data.length;
 
 
 
-data.forEach(row => {
+  let berlaku = 0;
 
-if(row["Status"] == "Berlaku") berlaku++;
-
-if(row["Status"] == "Tidak Berlaku") tidak++;
-
-});
+  let tidak = 0;
 
 
 
-document.getElementById("totalBerlaku").innerText =
-berlaku;
+  data.forEach(row => {
 
-document.getElementById("totalTidak").innerText =
-tidak;
+    if (row["Status"] == "Berlaku") berlaku++;
 
+    if (row["Status"] == "Tidak Berlaku") tidak++;
 
-
-// ================= CHART TAHUN =================
-
-let tahunMap = {};
-
-data.forEach(row => {
-
-let th = row["Tahun"];
-
-tahunMap[th] = (tahunMap[th] || 0) + 1;
-
-});
+  });
 
 
 
-new Chart(
+  document.getElementById("totalBerlaku").innerText =
+    berlaku;
 
-document.getElementById("chartTahun"),
-
-{
-
-type: "bar",
-
-data: {
-
-labels: Object.keys(tahunMap),
-
-datasets: [{
-
-label: "Jumlah Peraturan",
-
-data: Object.values(tahunMap)
-
-}]
-
-}
-
-}
-
-);
+  document.getElementById("totalTidak").innerText =
+    tidak;
 
 
 
-// ================= CHART JENIS =================
+  // ================= CHART TAHUN =================
 
-let jenisMap = {};
+  let tahunMap = {};
 
-data.forEach(row => {
+  data.forEach(row => {
 
-let jenis =
-row["Jenis/Bentuk Peraturan"];
+    let th = row["Tahun"];
 
-jenisMap[jenis] =
-(jenisMap[jenis] || 0) + 1;
+    tahunMap[th] =
+      (tahunMap[th] || 0) + 1;
 
-});
-
+  });
 
 
-new Chart(
 
-document.getElementById("chartJenis"),
+  new Chart(
 
-{
+    document.getElementById("chartTahun"),
 
-type: "pie",
+    {
 
-data: {
+      type: "bar",
 
-labels: Object.keys(jenisMap),
+      data: {
 
-datasets: [{
+        labels:
+          Object.keys(tahunMap),
 
-data: Object.values(jenisMap)
+        datasets: [
 
-}]
+          {
 
-}
+            label:
+              "Jumlah Peraturan",
 
-}
+            data:
+              Object.values(tahunMap)
 
-);
+          }
+
+        ]
+
+      }
+
+    }
+
+  );
+
+
+
+  // ================= CHART JENIS =================
+
+  let jenisMap = {};
+
+  data.forEach(row => {
+
+    let jenis =
+      row["Jenis/Bentuk Peraturan"];
+
+    jenisMap[jenis] =
+      (jenisMap[jenis] || 0) + 1;
+
+  });
+
+
+
+  new Chart(
+
+    document.getElementById("chartJenis"),
+
+    {
+
+      type: "pie",
+
+      data: {
+
+        labels:
+          Object.keys(jenisMap),
+
+        datasets: [
+
+          {
+
+            data:
+              Object.values(jenisMap)
+
+          }
+
+        ]
+
+      }
+
+    }
+
+  );
 
 });
 
@@ -347,79 +358,87 @@ data: Object.values(jenisMap)
 
 $(document).ready(function () {
 
-$("#tabelPeraturan").DataTable({
+  $("#tabelPeraturan").DataTable({
 
-ajax: {
+    ajax: {
 
-url: url,
+      url: url,
 
-dataSrc: "data"
+      dataSrc: "data"
 
-},
+    },
 
-pageLength: 10,
+    pageLength: 10,
 
-lengthMenu: [10, 25, 50, 100],
+    lengthMenu: [10, 25, 50, 100],
 
-order: [[2, "desc"]],
+    order: [[2, "desc"]],
 
-columns: [
+    columns: [
 
-{
-data: "id"
-},
+      {
+        data: "id"
+      },
 
-{
-data: "Nama Peraturan",
+      {
 
-render: function(data, type, row){
+        data: "Nama Peraturan",
 
-if(!data)
-data = row["Nama Peraturan"];
+        render: function(data, type, row){
 
-return `
-<a href="detail.html?id=${row.id}">
-${data}
-</a>
-`;
+          if(!data)
+            data = row["Nama Peraturan"];
 
-}
+          return `
+            <a href="detail.html?id=${row.id}">
+              ${data}
+            </a>
+          `;
 
-},
+        }
 
-{
-data: "Tahun"
-},
+      },
 
-{
-data: "Status"
-}
+      {
+        data: "Tahun"
+      },
 
-],
+      {
+        data: "Status"
+      }
 
-language:{
+    ],
 
-lengthMenu:"Tampilkan _MENU_ peraturan",
+    language: {
 
-zeroRecords:"Data tidak ditemukan",
+      lengthMenu:
+        "Tampilkan _MENU_ peraturan",
 
-info:"Menampilkan _START_ sampai _END_ dari _TOTAL_ peraturan",
+      zeroRecords:
+        "Data tidak ditemukan",
 
-infoEmpty:"Tidak ada data",
+      info:
+        "Menampilkan _START_ sampai _END_ dari _TOTAL_ peraturan",
 
-search:"Cari:",
+      infoEmpty:
+        "Tidak ada data",
 
-paginate:{
+      search:
+        "Cari:",
 
-next:"Berikutnya",
+      paginate: {
 
-previous:"Sebelumnya"
+        next:
+          "Berikutnya",
 
-}
+        previous:
+          "Sebelumnya"
 
-}
+      }
 
-});
+    }
+
+  });
 
 });
 
