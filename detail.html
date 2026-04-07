@@ -84,10 +84,10 @@ color:white;
 
 <div class="card">
 
-<div class="title">
+<div class="title" id="judul">
 
 <i class="fa fa-file-alt"></i>
-Detail Peraturan
+Memuat...
 
 </div>
 
@@ -208,6 +208,18 @@ console.log("DATA:", row);
 
 document.getElementById("nama").innerHTML =
 row["Nama Peraturan"] || row["Tentang"];
+
+// ================= JUDUL HALAMAN =================
+
+let namaPeraturan =
+row["Nama Peraturan"] || row["Tentang"];
+
+document.getElementById("judul").innerHTML =
+"<i class='fa fa-file-alt'></i> " +
+namaPeraturan;
+
+// Optional: ubah juga title tab browser
+document.title = namaPeraturan;
 
 
 // Jenis
