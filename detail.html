@@ -100,7 +100,6 @@ margin-bottom:5px;
 
 <div class="title" id="judul">
 
-<i class="fa fa-file-alt"></i>
 Memuat...
 
 </div>
@@ -218,20 +217,12 @@ console.log("DATA:", row);
 let namaPeraturan =
 row["Nama Peraturan"] || row["Tentang"] || "-";
 
-// Potong panjang judul
-let judulPendek =
-namaPeraturan.length > 120
-? namaPeraturan.substring(0,120) + "..."
-: namaPeraturan;
-
 // Judul halaman
-document.getElementById("judul").innerHTML =
-"<i class='fa fa-file-alt'></i> " +
-judulPendek;
+document.getElementById("judul").innerHTML = namaPeraturan;
 
 // Title tab browser
 document.title =
-"JDIH Biro PBJ - " + judulPendek;
+"JDIH Biro PBJ - " + namaPeraturan;
 
 
 // ================= DATA =================
