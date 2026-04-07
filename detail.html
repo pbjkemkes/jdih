@@ -42,16 +42,23 @@ const date = new Date(tgl);
 
 if(isNaN(date)) return tgl;
 
-// gunakan UTC supaya tidak loncat tanggal
+// konversi ke waktu Indonesia (WIB)
+
+const localDate =
+new Date(
+date.getTime() + (7 * 60 * 60 * 1000)
+);
 
 const hari =
-date.getUTCDate();
+localDate.getDate();
 
 const bulan =
-bulanIndo[date.getUTCMonth()];
+bulanIndo[
+localDate.getMonth()
+];
 
 const tahun =
-date.getUTCFullYear();
+localDate.getFullYear();
 
 return `${hari} ${bulan} ${tahun}`;
 
