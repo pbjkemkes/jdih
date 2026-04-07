@@ -375,7 +375,7 @@ data: "Nama Peraturan",
 render: function(data, type, row){
 
 if(!data)
-data = row["Tentang"];
+data = row["Nama Peraturan"];
 
 return `
 <a href="detail.html?id=${row.id}">
@@ -399,11 +399,11 @@ data: "Status"
 
 language:{
 
-lengthMenu:"Tampilkan _MENU_ data",
+lengthMenu:"Tampilkan _MENU_ peraturan",
 
 zeroRecords:"Data tidak ditemukan",
 
-info:"Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+info:"Menampilkan _START_ sampai _END_ dari _TOTAL_ peraturan",
 
 infoEmpty:"Tidak ada data",
 
