@@ -7,9 +7,16 @@
 
 <title>Dashboard Peraturan</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link
 rel="stylesheet"
 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+/>
+
+<link
+rel="stylesheet"
+href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css"
 />
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -34,19 +41,19 @@ margin-bottom:20px;
 
 }
 
-.card h3{
-
-margin-top:0;
-
-}
-
 .stat-box{
 
 text-align:center;
 
-font-size:22px;
+}
+
+.stat-number{
+
+font-size:32px;
 
 font-weight:bold;
+
+color:#2c3e50;
 
 }
 
@@ -68,31 +75,51 @@ max-height:350px;
 
 <br>
 
+<!-- ================= STATISTIK ================= -->
+
 <div class="row">
 
 <div class="col-md-4">
+
 <div class="card stat-box">
+
 Total Peraturan
-<h2 id="totalData">0</h2>
+
+<div id="totalData" class="stat-number">0</div>
+
 </div>
+
 </div>
 
 <div class="col-md-4">
+
 <div class="card stat-box">
+
 Status Berlaku
-<h2 id="totalBerlaku">0</h2>
+
+<div id="totalBerlaku" class="stat-number">0</div>
+
 </div>
+
 </div>
 
 <div class="col-md-4">
+
 <div class="card stat-box">
+
 Tidak Berlaku
-<h2 id="totalTidak">0</h2>
+
+<div id="totalTidak" class="stat-number">0</div>
+
 </div>
+
 </div>
 
 </div>
 
+
+
+<!-- ================= CHART ================= -->
 
 <div class="row">
 
@@ -125,21 +152,29 @@ Tidak Berlaku
 
 
 
+<!-- ================= TABEL ================= -->
+
 <div class="row">
 
 <div class="col-md-12">
 
 <div class="card">
 
-<h3>Peraturan Terbaru</h3>
+<h3>Daftar Semua Peraturan</h3>
 
-<table class="table table-bordered">
+<table
+id="tabelPeraturan"
+class="table table-striped table-bordered"
+style="width:100%"
+>
 
 <thead>
 
 <tr>
 
-<th>Nama</th>
+<th>No</th>
+
+<th>Nama Peraturan</th>
 
 <th>Tahun</th>
 
@@ -148,10 +183,6 @@ Tidak Berlaku
 </tr>
 
 </thead>
-
-<tbody id="latestTable">
-
-</tbody>
 
 </table>
 
@@ -164,11 +195,26 @@ Tidak Berlaku
 
 </div>
 
+
+
+<!-- ================= LIBRARY ================= -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script>
+
+
+
 <script>
 
 const url =
 "https://script.google.com/macros/s/AKfycbxz4T5u8G9R_mf43WjEnGBFhAWOIIiwSgNhZ0D9eqZyN3YQOnJjOY_oRoX_4CUIKV8kGQ/exec";
 
+
+
+// ================= LOAD DATA =================
 
 fetch(url)
 
@@ -180,9 +226,7 @@ const data = result.data;
 
 
 
-// ==================
-// HITUNG TOTAL
-// ==================
+// ================= STATISTIK =================
 
 document.getElementById("totalData").innerText =
 data.length;
@@ -213,9 +257,7 @@ tidak;
 
 
 
-// ==================
-// CHART TAHUN
-// ==================
+// ================= CHART TAHUN =================
 
 let tahunMap = {};
 
@@ -226,6 +268,7 @@ let th = row["Tahun"];
 tahunMap[th] = (tahunMap[th] || 0) + 1;
 
 });
+
 
 
 new Chart(
@@ -242,7 +285,7 @@ labels: Object.keys(tahunMap),
 
 datasets: [{
 
-label: "Jumlah",
+label: "Jumlah Peraturan",
 
 data: Object.values(tahunMap)
 
@@ -256,9 +299,7 @@ data: Object.values(tahunMap)
 
 
 
-// ==================
-// CHART JENIS
-// ==================
+// ================= CHART JENIS =================
 
 let jenisMap = {};
 
@@ -271,6 +312,7 @@ jenisMap[jenis] =
 (jenisMap[jenis] || 0) + 1;
 
 });
+
 
 
 new Chart(
@@ -297,49 +339,87 @@ data: Object.values(jenisMap)
 
 );
 
-
-
-// ==================
-// DATA TERBARU
-// ==================
-
-data
-
-.sort((a,b) =>
-b["Tahun"] - a["Tahun"])
-
-.slice(0,10)
-
-.forEach(row => {
-
-let tr = document.createElement("tr");
-
-tr.innerHTML = `
-
-<td>
-
-<a href="detail.html?id=${row.id}">
-
-${row["Nama Peraturan"] || row["Tentang"]}
-
-</a>
-
-</td>
-
-<td>${row["Tahun"]}</td>
-
-<td>${row["Status"]}</td>
-
-`;
-
-document
-
-.getElementById("latestTable")
-
-.appendChild(tr);
-
 });
 
+
+
+// ================= DATATABLE =================
+
+$(document).ready(function () {
+
+$("#tabelPeraturan").DataTable({
+
+ajax: {
+
+url: url,
+
+dataSrc: "data"
+
+},
+
+pageLength: 10,
+
+lengthMenu: [10, 25, 50, 100],
+
+order: [[2, "desc"]],
+
+columns: [
+
+{
+data: "id"
+},
+
+{
+data: "Nama Peraturan",
+
+render: function(data, type, row){
+
+if(!data)
+data = row["Tentang"];
+
+return `
+<a href="detail.html?id=${row.id}">
+${data}
+</a>
+`;
+
+}
+
+},
+
+{
+data: "Tahun"
+},
+
+{
+data: "Status"
+}
+
+],
+
+language:{
+
+lengthMenu:"Tampilkan _MENU_ data",
+
+zeroRecords:"Data tidak ditemukan",
+
+info:"Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
+infoEmpty:"Tidak ada data",
+
+search:"Cari:",
+
+paginate:{
+
+next:"Berikutnya",
+
+previous:"Sebelumnya"
+
+}
+
+}
+
+});
 
 });
 
