@@ -331,14 +331,18 @@ item = item.trim();
 
 if(item !== ""){
 
-// Kalau teks "Mencabut:" → mulai list
+// Kalau "Mencabut:"
 if(item.toLowerCase().includes("mencabut")){
 
-html += item + "<br>";
-
+html += item + "<br>"; // tidak double
 html += "<ol>";
 
 listStarted = true;
+
+// Kalau "Dicabut dengan"
+}else if(item.toLowerCase().includes("dicabut")){
+
+html += item + "<br><br>"; // tambah 1 baris kosong
 
 }else{
 
@@ -358,7 +362,7 @@ html += item + "<br>";
 
 });
 
-// Tutup list kalau ada
+// Tutup list
 if(listStarted){
 html += "</ol>";
 }
