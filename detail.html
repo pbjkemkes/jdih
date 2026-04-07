@@ -321,20 +321,50 @@ if(hubungan.includes("<br>")){
 
 let items = hubungan.split("<br>");
 
-let list = "<ol>";
+let html = "";
+
+let listStarted = false;
 
 items.forEach(item => {
 
-if(item.trim() !== ""){
-list += "<li>" + item + "</li>";
+item = item.trim();
+
+if(item !== ""){
+
+// Kalau teks "Mencabut:" → mulai list
+if(item.toLowerCase().includes("mencabut")){
+
+html += item + "<br>";
+
+html += "<ol>";
+
+listStarted = true;
+
+}else{
+
+if(listStarted){
+
+html += "<li>" + item + "</li>";
+
+}else{
+
+html += item + "<br>";
+
+}
+
+}
+
 }
 
 });
 
-list += "</ol>";
+// Tutup list kalau ada
+if(listStarted){
+html += "</ol>";
+}
 
 document.getElementById("hubungan").innerHTML =
-list;
+html;
 
 }else{
 
