@@ -455,6 +455,30 @@ data:"Tanggal Penetapan"
 
 {
 data:"url_",
+
+render:function(data){
+
+if(data){
+
+return `
+<a href="${data}"
+target="_blank"
+title="Unduh PDF">
+
+<i class="fa fa-file-pdf-o"
+style="font-size:18px;color:#d9534f;"></i>
+
+</a>
+`;
+
+}else{
+
+return "-";
+
+}
+
+}
+
 },
 
 ],
