@@ -354,7 +354,7 @@ let jenisMap = {};
 data.forEach(row => {
 
 let jenis =
-row["Jenis/Bentuk Peraturan"] || "Tidak diketahui";
+row["jenis"] || "Tidak diketahui";
 
 jenisMap[jenis] =
 (jenisMap[jenis] || 0) + 1;
