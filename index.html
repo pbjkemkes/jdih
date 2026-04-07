@@ -405,7 +405,7 @@ pageLength:10,
 
 lengthMenu:[10,25,50,100],
 
-order:[[3,"desc"]],
+order:[[0,"desc"]],
 
 columns:[
 
@@ -442,7 +442,7 @@ ${data}
 // Jenis
 
 {
-data:"Jenis/Bentuk Peraturan"
+data:"jenis"
 },
 
 // Tanggal
@@ -455,31 +455,7 @@ data:"Tanggal Penetapan"
 
 {
 data:"url",
-
-render:function(data){
-
-if(data){
-
-return `
-<a href="${data}"
-target="_blank"
-class="btn btn-danger btn-download">
-
-<i class="fa fa-file-pdf-o"></i>
-PDF
-
-</a>
-`;
-
-}else{
-
-return "-";
-
-}
-
-}
-
-}
+},
 
 ],
 
