@@ -49,6 +49,31 @@ background:#f8f9fa;
 margin-top:15px;
 }
 
+/* ================= BADGE STATUS ================= */
+
+.badge-status{
+padding:6px 12px;
+border-radius:6px;
+font-size:12px;
+font-weight:600;
+display:inline-block;
+}
+
+.badge-berlaku{
+background:#28a745;
+color:white;
+}
+
+.badge-tidak{
+background:#dc3545;
+color:white;
+}
+
+.badge-default{
+background:#6c757d;
+color:white;
+}
+
 </style>
 
 </head>
@@ -152,12 +177,10 @@ return params.get("id");
 const id = getId();
 
 
-
 // ================= URL API =================
 
 const url =
 "https://script.google.com/macros/s/AKfycbxz4T5u8G9R_mf43WjEnGBFhAWOIIiwSgNhZ0D9eqZyN3YQOnJjOY_oRoX_4CUIKV8kGQ/exec?id=" + id;
-
 
 
 // ================= LOAD DATA =================
@@ -181,12 +204,10 @@ return res.json();
 console.log("DATA:", row);
 
 
-
 // Nama
 
 document.getElementById("nama").innerHTML =
 row["Nama Peraturan"] || row["Tentang"];
-
 
 
 // Jenis
@@ -195,12 +216,10 @@ document.getElementById("jenis").innerHTML =
 row["Jenis/Bentuk Peraturan"];
 
 
-
 // Pemrakarsa
 
 document.getElementById("pemrakarsa").innerHTML =
 row["Pemrakarsa"];
-
 
 
 // Nomor
@@ -209,12 +228,10 @@ document.getElementById("nomor").innerHTML =
 row["Nomor"];
 
 
-
 // Tahun
 
 document.getElementById("tahun").innerHTML =
 row["Tahun"];
-
 
 
 // Tentang
@@ -223,12 +240,10 @@ document.getElementById("tentang").innerHTML =
 row["Tentang"];
 
 
-
-// ✅ TANGGAL — langsung dari Apps Script
+// Tanggal
 
 document.getElementById("tanggal").innerHTML =
 row["Tanggal Penetapan"] || "-";
-
 
 
 // Pejabat
@@ -237,19 +252,43 @@ document.getElementById("pejabat").innerHTML =
 row["Pejabat yang Menetapkan"];
 
 
+// ================= STATUS BADGE =================
 
-// ✅ STATUS — pakai stts (sudah ada warna)
+let status = row["Status"] || "-";
+
+let badge = "";
+
+if(status.toLowerCase() === "tidak berlaku"){
+
+badge =
+"<span class='badge-status badge-tidak'>Tidak Berlaku</span>";
+
+}
+
+else if(status.toLowerCase() === "berlaku"){
+
+badge =
+"<span class='badge-status badge-berlaku'>Berlaku</span>";
+
+}
+
+else{
+
+badge =
+"<span class='badge-status badge-default'>" +
+status +
+"</span>";
+
+}
 
 document.getElementById("status").innerHTML =
-row["Status"];
-
+badge;
 
 
 // Hubungan
 
 document.getElementById("hubungan").innerHTML =
 row["Hubungan antar Peraturan"];
-
 
 
 // Dokumen
