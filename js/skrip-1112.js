@@ -228,7 +228,7 @@ return `
 target="_blank"
 title="Unduh PDF">
 
-<i class="fas fa-file-pdf"
+<i class="bi bi-file-earmark-pdf-fill"
 style="font-size:18px;color:#d9534f;"></i>
 
 </a></center>
