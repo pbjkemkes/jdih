@@ -336,10 +336,15 @@ item = item.trim();
 
 if(item !== ""){
 
-// Jika "Dicabut dengan" atau "Diubah dengan"
+let lower = item.toLowerCase();
+
+// ============================
+// Judul tanpa list
+// ============================
+
 if(
-item.toLowerCase().startsWith("dicabut") ||
-item.toLowerCase().startsWith("diubah")
+lower.startsWith("dicabut dengan") ||
+lower.startsWith("diubah dengan")
 ){
 
 if(listStarted){
@@ -347,13 +352,24 @@ html += "</ol>";
 listStarted = false;
 }
 
-// Tambah spasi 1 baris
 html += item + "<br><br>";
 
 }
 
-// Jika "Mencabut:"
-else if(item.toLowerCase().startsWith("mencabut")){
+// ============================
+// Pembuka list
+// ============================
+
+else if(
+lower.startsWith("dicabut:") ||
+lower.startsWith("mencabut:") ||
+lower.startsWith("diubah:") ||
+lower.startsWith("mengubah:")
+){
+
+if(listStarted){
+html += "</ol>";
+}
 
 html += item + "<br>";
 
@@ -363,7 +379,10 @@ listStarted = true;
 
 }
 
-// Item setelah "Mencabut:"
+// ============================
+// Isi list
+// ============================
+
 else{
 
 if(listStarted){
