@@ -228,7 +228,7 @@ return `
 target="_blank"
 title="Unduh PDF">
 
-<i class="fa-solid fa-file-pdf"
+<i class="fas fa-file-pdf"
 style="font-size:18px;color:#d9534f;"></i>
 
 </a></center>
