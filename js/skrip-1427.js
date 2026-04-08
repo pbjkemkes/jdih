@@ -2,8 +2,7 @@ const url =
 "https://script.google.com/macros/s/AKfycbxz4T5u8G9R_mf43WjEnGBFhAWOIIiwSgNhZ0D9eqZyN3YQOnJjOY_oRoX_4CUIKV8kGQ/exec";
 
 
-
-// ================= LOAD DATA =================
+// ================= LOAD DATA SEKALI =================
 
 fetch(url)
 
@@ -14,18 +13,13 @@ fetch(url)
 const data = result.data;
 
 
-
 // ================= STATISTIK =================
 
 document.getElementById("totalData").innerText =
 data.length;
 
-
-
 let berlaku = 0;
 let tidak = 0;
-
-
 
 data.forEach(row => {
 
@@ -34,14 +28,11 @@ if(row["Status"] == "Tidak Berlaku") tidak++;
 
 });
 
-
-
 document.getElementById("totalBerlaku").innerText =
 berlaku;
 
 document.getElementById("totalTidak").innerText =
 tidak;
-
 
 
 // ================= CHART TAHUN =================
@@ -57,38 +48,21 @@ tahunMap[th] =
 
 });
 
-
-
 new Chart(
-
 document.getElementById("chartTahun"),
-
 {
-
 type:"bar",
-
 data:{
-
 labels:Object.keys(tahunMap),
-
 datasets:[
-
 {
-
 label:"Jumlah Peraturan",
-
 data:Object.values(tahunMap)
-
 }
-
 ]
-
 }
-
 }
-
 );
-
 
 
 // ================= CHART JENIS =================
@@ -105,50 +79,27 @@ jenisMap[jenis] =
 
 });
 
-
-
 new Chart(
-
 document.getElementById("chartJenis"),
-
 {
-
 type:"pie",
-
 data:{
-
 labels:Object.keys(jenisMap),
-
 datasets:[
-
 {
-
 data:Object.values(jenisMap)
-
 }
-
 ]
-
 }
-
 }
-
 );
-
-});
-
 
 
 // ================= DATATABLE =================
 
-$(document).ready(function(){
-
 $("#tabelPeraturan").DataTable({
 
-ajax:{
-url:url,
-dataSrc:"data"
-},
+data:data, // 🔥 pakai data langsung
 
 pageLength:10,
 
@@ -159,7 +110,6 @@ order:[[0,"asc"]],
 columns:[
 
 // Nomor otomatis
-
 {
 data:null,
 
@@ -168,11 +118,9 @@ render:function(data,type,row,meta){
 return meta.row + 1;
 
 }
-
 },
 
 // Nama
-
 {
 data:"Nama Peraturan",
 
@@ -180,7 +128,6 @@ render:function(data,type,row){
 
 let badge = "";
 
-// Jika status Tidak Berlaku
 if(row["Status"] === "Tidak Berlaku"){
 
 badge = `
@@ -203,19 +150,16 @@ ${badge}
 },
 
 // Jenis
-
 {
 data:"jenis"
 },
 
 // Tanggal
-
 {
 data:"Tanggal Penetapan"
 },
 
 // Download
-
 {
 data:"url_",
 
@@ -224,14 +168,16 @@ render:function(data){
 if(data){
 
 return `
-<center><a href="${data}"
+<center>
+<a href="${data}"
 target="_blank"
 title="Unduh PDF">
 
 <i class="bi bi-file-earmark-pdf-fill"
 style="font-size:18px;color:#d9534f;"></i>
 
-</a></center>
+</a>
+</center>
 `;
 
 }else{
@@ -242,39 +188,29 @@ return "-";
 
 }
 
-},
+}
 
 ],
 
 language:{
 
-processing:
-"Memuat...",
+processing:"Memuat...",
 
-loadingRecords:
-"Memuat...",
+loadingRecords:"Memuat...",
 
-lengthMenu:
-"Tampilkan _MENU_ peraturan",
+lengthMenu:"Tampilkan _MENU_ peraturan",
 
-zeroRecords:
-"Data tidak ditemukan",
+zeroRecords:"Data tidak ditemukan",
 
-info:
-"Menampilkan _START_ sampai _END_ dari _TOTAL_ peraturan",
+info:"Menampilkan _START_ sampai _END_ dari _TOTAL_ peraturan",
 
-infoEmpty:
-"Tidak ada data",
+infoEmpty:"Tidak ada data",
 
-search:
-"Cari:",
+search:"Cari:",
 
 paginate:{
-
 next:"Berikutnya",
-
 previous:"Sebelumnya"
-
 }
 
 }
