@@ -339,36 +339,19 @@ if(item !== ""){
 let lower = item.toLowerCase();
 
 // ============================
-// HEADER TANPA LIST
+// HEADER LIST (HARUS ADA ":")
 // ============================
 
 if(
-lower.startsWith("dicabut dengan") ||
-lower.startsWith("diubah dengan")
-){
-
-// Tutup list jika ada
-if(listStarted){
-html += "</ol>";
-listStarted = false;
-}
-
-// Tambah spasi setelah header
-html += item + "<br><br>";
-
-}
-
-// ============================
-// HEADER DENGAN LIST
-// ============================
-
-else if(
+lower.startsWith("dicabut dengan:") ||
 lower.startsWith("dicabut:") ||
 lower.startsWith("mencabut:") ||
+lower.startsWith("diubah dengan:") ||
 lower.startsWith("diubah:") ||
 lower.startsWith("mengubah:")
 ){
 
+// Tutup list sebelumnya
 if(listStarted){
 html += "</ol>";
 }
@@ -384,6 +367,28 @@ listStarted = true;
 }
 
 // ============================
+// HEADER TANPA LIST
+// ============================
+
+else if(
+lower.startsWith("dicabut dengan") ||
+lower.startsWith("mencabut") ||
+lower.startsWith("diubah dengan") ||
+lower.startsWith("mengubah")
+){
+
+// Tutup list jika ada
+if(listStarted){
+html += "</ol>";
+listStarted = false;
+}
+
+// Tambah spasi
+html += item + "<br><br>";
+
+}
+
+// ============================
 // ITEM LIST
 // ============================
 
@@ -391,7 +396,7 @@ else{
 
 if(listStarted){
 
-// Hilangkan angka jika sudah ada
+// hapus numbering lama kalau ada
 item = item.replace(/^\d+\.\s*/, "");
 
 html += "<li>" + item + "</li>";
