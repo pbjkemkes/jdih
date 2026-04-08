@@ -1,5 +1,5 @@
 const url =
-"https://script.google.com/macros/s/AKfycbxCOpXB2cR5se8ht1pNFOLx5zmCdhbgfvNXr8YZyOHQ2k19HOrwF4eXJymCCoCpODVs5Q/exec";
+"https://script.google.com/macros/s/AKfycbwj7621SN_CldADspG0cXnTaoQV_XSKGUUZn374759d0sF5v7gNcciaCH_f_aaudwj2jA/exec";
 
 
 // ================= LOAD DATA SEKALI =================
