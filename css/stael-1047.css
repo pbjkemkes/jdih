@@ -46,12 +46,52 @@ margin-bottom:20px;
 
 .stat-box{
 text-align:center;
+border-radius:10px;
+padding:20px;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Jumlah Peraturan */
+
+.stat-total{
+background:linear-gradient(
+135deg,
+#E6F2FF,
+#DCEEFE
+);
+}
+
+/* Berlaku */
+
+.stat-berlaku{
+background:linear-gradient(
+135deg,
+#E9F9EC,
+#DFF5E1
+);
+}
+
+/* Tidak Berlaku */
+
+.stat-tidak{
+background:linear-gradient(
+135deg,
+#FEECEC,
+#FDE2E1
+);
 }
 
 .stat-number{
-font-size:32px;
-font-weight:bold;
+font-size:34px;
+font-weight:700;
 color:#2c3e50;
+}
+
+.stat-title{
+font-size:15px;
+font-weight:600;
+margin-bottom:8px;
+color:#34495e;
 }
 
 canvas{
