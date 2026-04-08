@@ -178,14 +178,28 @@ data:"Nama Peraturan",
 
 render:function(data,type,row){
 
-return `
-<a href="detail.html?id=${row.id}">
-${data}
-</a>
+let badge = "";
+
+// Jika status Tidak Berlaku
+if(row["Status"] === "Tidak Berlaku"){
+
+badge = `
+<br>
+<span class="badge badge-tidak">
+Tidak Berlaku
+</span>
 `;
 
 }
 
+return `
+<a href="detail.html?id=${row.id}">
+${data}
+</a>
+${badge}
+`;
+
+}
 },
 
 // Jenis
