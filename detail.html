@@ -339,27 +339,44 @@ if(item !== ""){
 let lower = item.toLowerCase();
 
 // ============================
-// KEYWORD PEMBUKA LIST
+// HEADER TANPA LIST
 // ============================
 
 if(
 lower.startsWith("dicabut dengan") ||
+lower.startsWith("diubah dengan")
+){
+
+// Tutup list jika ada
+if(listStarted){
+html += "</ol>";
+listStarted = false;
+}
+
+// Tambah spasi setelah header
+html += item + "<br><br>";
+
+}
+
+// ============================
+// HEADER DENGAN LIST
+// ============================
+
+else if(
 lower.startsWith("dicabut:") ||
 lower.startsWith("mencabut:") ||
-lower.startsWith("diubah dengan") ||
 lower.startsWith("diubah:") ||
 lower.startsWith("mengubah:")
 ){
 
-// Tutup list lama jika ada
 if(listStarted){
 html += "</ol>";
 }
 
-// Tampilkan judul
+// Tampilkan header
 html += item + "<br>";
 
-// Buka list baru
+// Mulai list
 html += "<ol style='margin-top:5px;'>";
 
 listStarted = true;
@@ -367,18 +384,21 @@ listStarted = true;
 }
 
 // ============================
-// ISI LIST
+// ITEM LIST
 // ============================
 
 else{
 
 if(listStarted){
 
+// Hilangkan angka jika sudah ada
+item = item.replace(/^\d+\.\s*/, "");
+
 html += "<li>" + item + "</li>";
 
 }else{
 
-html += item + "<br><br>";
+html += item + "<br>";
 
 }
 
