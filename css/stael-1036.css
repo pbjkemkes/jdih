@@ -58,6 +58,19 @@ canvas{
 max-height:350px;
 }
 
+/* ================= STATUS ================= */
+
+.badge-tidak{
+display:inline-block;
+margin-top:4px;
+padding:2px 6px;
+font-size:11px;
+font-weight:600;
+background:#d9534f;
+color:white;
+border-radius:4px;
+}
+
 /* ================= DOWNLOAD BUTTON ================= */
 
 .btn-download{
