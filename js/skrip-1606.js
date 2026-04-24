@@ -204,7 +204,7 @@ zeroRecords:"Data tidak ditemukan",
 
 info:"Menampilkan _START_ sampai _END_ dari _TOTAL_ peraturan",
 
-infoFiltered:"(disaring dari total _MAX_ peraturan)"
+infoFiltered:"(disaring dari total _MAX_ peraturan)",
 
 infoEmpty:"Tidak ada data",
 
