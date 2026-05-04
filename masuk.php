@@ -4,7 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>Login - JDIH Biro PBJ</title>
+<title>Masuk - JDIH Biro PBJ</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="icon" type="image/png" href="favicon.png">
@@ -73,6 +73,12 @@ body{
   <h3>JDIH Biro PBJ</h3>
 </div>
 
+<?php if(isset($_GET['error'])){ ?>
+  <div class="alert alert-danger">
+    Username / Password salah
+  </div>
+<?php } ?>
+    
 <form action="proses_login.php" method="POST">
 
   <div class="form-group">
