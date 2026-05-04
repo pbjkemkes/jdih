@@ -171,7 +171,7 @@ return `
 <center>
 <a href="${data}"
 target="_blank"
-title="Unduh PDF">
+title="Unduh dokumen">
 
 <i class="bi bi-file-earmark-pdf-fill"
 style="font-size:18px;color:#d9534f;"></i>
