@@ -6,7 +6,7 @@ sendSignInLinkToEmail
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 const actionCodeSettings = {
-  url: "https://pbjkemkes.github.io/jdih/finish.html",
+  url: "https://pbjkemkes.github.io/jdih/kelar.html",
   handleCodeInApp: true
 };
 
