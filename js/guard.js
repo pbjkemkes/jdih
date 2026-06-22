@@ -1,4 +1,5 @@
-import { auth } from "./firebase-config.js";
+import { auth }
+from "./firebase-config.js";
 
 import {
 onAuthStateChanged
@@ -8,14 +9,8 @@ from
 
 onAuthStateChanged(auth,(user)=>{
 
-if(!user){
-    window.location="masuk.html";
-    return;
-}
-
-if(!user.email.endsWith("@kemkes.go.id")){
-    auth.signOut();
-    window.location="masuk.html";
-}
+  if(!user){
+      location="masuk.html";
+  }
 
 });
