@@ -14,12 +14,14 @@ return;
 
 }
 
-await sb
-.from("access_log")
-.insert({
+if(!user.email.endsWith("@kemkes.go.id")){
 
-email:user.email
+await sb.auth.signOut();
 
-});
+location="masuk.html";
+
+return;
+
+}
 
 })();
