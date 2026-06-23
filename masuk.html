@@ -1,19 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login JDIH PBJ</title>
+
+<style>
+    *{
+        box-sizing:border-box;
+        margin:0;
+        padding:0;
+        font-family:Segoe UI, Arial, sans-serif;
+    }
+
+    body{
+        min-height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:#f4f6f9;
+    }
+
+    .login-box{
+        width:350px;
+        background:white;
+        padding:40px;
+        border-radius:16px;
+        box-shadow:0 8px 24px rgba(0,0,0,.1);
+        text-align:center;
+    }
+
+    h2{
+        margin-bottom:25px;
+        color:#0f5132;
+    }
+
+    input{
+        width:100%;
+        padding:14px;
+        border:1px solid #ddd;
+        border-radius:8px;
+        font-size:15px;
+        margin-bottom:15px;
+    }
+
+    button{
+        width:100%;
+        padding:14px;
+        border:none;
+        border-radius:8px;
+        background:#198754;
+        color:white;
+        font-size:15px;
+        cursor:pointer;
+        transition:.2s;
+    }
+
+    button:hover{
+        background:#157347;
+    }
+</style>
 </head>
+
 <body>
 
-<h2>Login JDIH PBJ Kemenkes</h2>
+<div class="login-box">
 
-<input id="email" type="email"
-placeholder="nama@kemkes.go.id">
+    <h2>Login JDIH PBJ Kemenkes</h2>
 
-<button id="btnLogin">
-Kirim Link Login
-</button>
+    <input
+        id="email"
+        type="email"
+        placeholder="nama@kemkes.go.id">
+
+    <button id="btnLogin">
+        Kirim Link Login
+    </button>
+
+</div>
 
 <script type="module" src="js/masuk.js"></script>
 
