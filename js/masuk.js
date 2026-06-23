@@ -1,8 +1,11 @@
 document.getElementById("btnLogin")
-.onclick = async ()=>{
+.onclick = async()=>{
 
 const email =
 document.getElementById("email").value.trim();
+
+const password =
+document.getElementById("password").value;
 
 if(!email.endsWith("@kemkes.go.id")){
 
@@ -12,16 +15,15 @@ return;
 
 }
 
-const {error}=await sb.auth.signInWithOtp({
+const {
+data,
+error
+}
+=
+await sb.auth.signInWithPassword({
 
 email,
-
-options:{
-
-emailRedirectTo:
-"https://pbjkemkes.github.io/jdih/index.html"
-
-}
+password
 
 });
 
@@ -29,12 +31,10 @@ if(error){
 
 alert(error.message);
 
-}
-
-else{
-
-alert("Link login telah dikirim ke email Anda");
+return;
 
 }
 
-}
+location="index.html";
+
+};
