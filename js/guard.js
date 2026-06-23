@@ -24,4 +24,15 @@ return;
 
 }
 
+await sb
+.from("access_log")
+.insert({
+
+email:user.email,
+
+halaman:
+location.pathname
+
+});
+
 })();
