@@ -1,100 +1,109 @@
 (async()=>{
 
-const {data,error} =
-await sb
-.from("access_log")
-.select("*")
-.order(
-"login_time",
-{
-ascending:false
-});
+    const {data,error} =
+    await sb
+    .from("access_log")
+    .select("*")
+    .order(
+        "login_time",
+        {ascending:false}
+    );
 
-let map={};
+    if(error){
 
-data.forEach(r=>{
+        console.error(error);
+        return;
 
-if(!map[r.email]){
+    }
 
-map[r.email]={
+    let map={};
 
-jumlah:0,
+    data.forEach(r=>{
 
-terakhir:r.login_time
+        if(!map[r.email]){
 
-};
+            map[r.email]={
 
-}
+                jumlah:0,
 
-map[r.email].jumlah++;
+                terakhir:r.login_time
 
-});
+            };
 
-document.getElementById(
-"totalUser"
-).innerHTML=
-Object.keys(map).length;
+        }
 
-document.getElementById(
-"totalLogin"
-).innerHTML=
-data.length;
+        map[r.email].jumlah++;
 
-const hariIni=
-new Date()
-.toISOString()
-.substring(0,10);
+    });
 
-document.getElementById(
-"loginHariIni"
-).innerHTML=
-data.filter(
-x=>x.login_date==hariIni
-).length;
+    // Total user unik
+    document.getElementById(
+        "totalUser"
+    ).innerHTML=
+    Object.keys(map).length;
 
-let html="";
+    // Total login
+    document.getElementById(
+        "totalLogin"
+    ).innerHTML=
+    data.length;
 
-Object.entries(map)
-.forEach(([email,v])=>{
+    // Login hari ini
+    const hariIni =
+    new Date()
+    .toISOString()
+    .substring(0,10);
 
-html+=`
+    document.getElementById(
+        "loginHariIni"
+    ).innerHTML =
+    data.filter(
+        x=>x.login_time.startsWith(hariIni)
+    ).length;
 
-<tr>
+    // Isi tabel
+    let html="";
 
-<td>${email}</td>
+    Object.entries(map)
+    .forEach(([email,v])=>{
 
-<td>
-${new Date(
-v.terakhir
-).toLocaleString()}
-</td>
+        html += `
+        <tr>
 
-<td>
-${v.jumlah}
-</td>
+            <td>${email}</td>
 
-</tr>
+            <td>
+            ${new Date(
+                v.terakhir
+            ).toLocaleString()}
+            </td>
 
-`;
+            <td>${v.jumlah}</td>
 
-});
+        </tr>
+        `;
 
-document
-.querySelector("tbody")
-.innerHTML=html;
+    });
 
-excel.onclick=()=>{
+    document
+    .querySelector("tbody")
+    .innerHTML = html;
 
-const wb=
-XLSX.utils.table_to_book(
-tbl
-);
+    // Export Excel
+    document
+    .getElementById("excel")
+    .onclick = ()=>{
 
-XLSX.writeFile(
-wb,
-"log-user.xlsx"
-);
+        const wb =
+        XLSX.utils.table_to_book(
+            document.getElementById("tbl")
+        );
 
-};
+        XLSX.writeFile(
+            wb,
+            "log-user.xlsx"
+        );
+
+    };
 
 })();
