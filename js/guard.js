@@ -1,16 +1,37 @@
-import { auth }
-from "./firebase-config.js";
+(async()=>{
 
-import {
-onAuthStateChanged
+const {
+
+data:{user}
+
 }
-from
-"https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+=
+await sb.auth.getUser();
 
-onAuthStateChanged(auth,(user)=>{
+if(!user){
 
-  if(!user){
-      location="masuk.html";
-  }
+location="masuk.html";
+
+return;
+
+}
+
+if(!user.email.endsWith("@kemkes.go.id")){
+
+await sb.auth.signOut();
+
+location="masuk.html";
+
+return;
+
+}
+
+await sb
+.from("access_log")
+.insert({
+
+email:user.email
 
 });
+
+})();
