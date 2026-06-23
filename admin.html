@@ -1,12 +1,83 @@
-<table>
+```html
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<title>Admin JDIH</title>
+
+<link rel="stylesheet"
+href="css/stael.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="js/supabase-config.js"></script>
+
+</head>
+
+<body>
+
+<h2>Dashboard Admin</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>Total User</h3>
+<div id="totalUser">0</div>
+</div>
+
+<div class="card">
+<h3>Login Hari Ini</h3>
+<div id="loginHariIni">0</div>
+</div>
+
+<div class="card">
+<h3>Total Login</h3>
+<div id="totalLogin">0</div>
+</div>
+
+</div>
+
+<br>
+
+<canvas id="topChart"></canvas>
+
+<br>
+
+<input
+id="cari"
+placeholder="Cari user">
+
+<button id="excel">
+Export Excel
+</button>
+
+<table id="tbl">
+
 <thead>
+
 <tr>
-<th>Nama</th>
+
 <th>Email</th>
-<th>Waktu</th>
+
+<th>Login Terakhir</th>
+
+<th>Jumlah Login</th>
+
 </tr>
+
 </thead>
-<tbody id="tb"></tbody>
+
+<tbody>
+
+</tbody>
+
 </table>
 
-<script type="module" src="js/admin.js"></script>
+<script src="js/admin.js"></script>
+
+</body>
+</html>
+```
