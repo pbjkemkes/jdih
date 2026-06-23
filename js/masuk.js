@@ -1,46 +1,40 @@
-import { auth } from "./firebase-config.js";
+document.getElementById("btnLogin")
+.onclick = async ()=>{
 
-import {
-sendSignInLinkToEmail
+const email =
+document.getElementById("email").value.trim();
+
+if(!email.endsWith("@kemkes.go.id")){
+
+alert("Gunakan email @kemkes.go.id");
+
+return;
+
 }
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-const actionCodeSettings = {
-  url: "https://pbjkemkes.github.io/jdih/kelar.html",
-  handleCodeInApp: true
-};
+const {error}=await sb.auth.signInWithOtp({
 
-document.getElementById("btnLogin").onclick = async () => {
+email,
 
-  try {
+options:{
 
-    const email =
-      document.getElementById("email").value.trim();
+emailRedirectTo:
+"https://pbjkemkes.github.io/jdih/index.html"
 
-    if (!email.endsWith("@kemkes.go.id")) {
-      alert("Gunakan email @kemkes.go.id");
-      return;
-    }
+}
 
-    await sendSignInLinkToEmail(
-      auth,
-      email,
-      actionCodeSettings
-    );
+});
 
-    localStorage.setItem("emailForSignIn", email);
+if(error){
 
-    alert("Tautan telah dikirim. Cek email Anda");
+alert(error.message);
 
-  } catch (err) {
+}
 
-    console.error(err);
+else{
 
-    alert(
-      err.code + "\n\n" +
-      err.message
-    );
+alert("Link login telah dikirim ke email Anda");
 
-  }
+}
 
-};
+}
