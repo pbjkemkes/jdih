@@ -1,34 +1,34 @@
-document.getElementById("loginForm")
-.addEventListener("submit", async (e)=>{
+document
+.getElementById("loginForm")
+.addEventListener(
+"submit",
+async(e)=>{
 
-    e.preventDefault();
+e.preventDefault();
 
-    const email =
-        document.getElementById("email").value.trim();
+const email =
+document.getElementById("email").value.trim();
 
-    const password =
-        document.getElementById("password").value;
+const password =
+document.getElementById("password").value;
 
-    if(!email.endsWith("@kemkes.go.id")){
-        alert("Gunakan email @kemkes.go.id");
-        return;
-    }
+const {error}
+=
+await sb.auth.signInWithPassword({
 
-    const { error } =
-    await sb.auth.signInWithPassword({
+email,
+password
 
-        email,
-        password
+});
 
-    });
+if(error){
 
-    if(error){
+alert(error.message);
 
-        alert(error.message);
-        return;
+}else{
 
-    }
+location="index.html";
 
-    location = "index.html";
+}
 
 });
