@@ -1,40 +1,34 @@
-document.getElementById("btnLogin")
-.onclick = async()=>{
+document.getElementById("loginForm")
+.addEventListener("submit", async (e)=>{
 
-const email =
-document.getElementById("email").value.trim();
+    e.preventDefault();
 
-const password =
-document.getElementById("password").value;
+    const email =
+        document.getElementById("email").value.trim();
 
-if(!email.endsWith("@kemkes.go.id")){
+    const password =
+        document.getElementById("password").value;
 
-alert("Gunakan email @kemkes.go.id");
+    if(!email.endsWith("@kemkes.go.id")){
+        alert("Gunakan email @kemkes.go.id");
+        return;
+    }
 
-return;
+    const { error } =
+    await sb.auth.signInWithPassword({
 
-}
+        email,
+        password
 
-const {
-data,
-error
-}
-=
-await sb.auth.signInWithPassword({
+    });
 
-email,
-password
+    if(error){
+
+        alert(error.message);
+        return;
+
+    }
+
+    location = "index.html";
 
 });
-
-if(error){
-
-alert(error.message);
-
-return;
-
-}
-
-location="index.html";
-
-};
