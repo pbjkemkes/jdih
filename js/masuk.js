@@ -29,5 +29,5 @@ document.getElementById("btnLogin")
 
   localStorage.setItem("emailForSignIn",email);
 
-  alert("Link login telah dikirim.");
+  alert("Tautan telah dikirim. Cek email Anda");
 };
