@@ -8,10 +8,3 @@ window.sb = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-
-const hariIni = new Date().toISOString().slice(0,10);
-
-const {data} = await sb
-.from("access_log")
-.select("*")
-.gte("login_time", hariIni);
