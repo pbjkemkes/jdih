@@ -4,6 +4,64 @@
         data:{user}
     } = await sb.auth.getUser();
 
+    if(!user){
+
+        location="masuk.html";
+        return;
+
+    }
+
+    if(!user.email.endsWith("@kemkes.go.id")){
+
+        await sb.auth.signOut();
+
+        location="masuk.html";
+
+        return;
+
+    }
+
+    if(!sessionStorage.getItem("login_logged")){
+
+        try{
+
+            await sb
+            .from("access_log")
+            .insert({
+
+                email:user.email,
+
+                halaman:location.pathname,
+
+                browser:navigator.userAgent,
+
+                login_date:
+                new Date()
+                .toISOString()
+                .substring(0,10)
+
+            });
+
+            sessionStorage.setItem(
+                "login_logged",
+                "1"
+            );
+
+        }
+        catch(err){
+
+            console.error(err);
+
+        }
+
+    }
+
+})();(async()=>{
+
+    const {
+        data:{user}
+    } = await sb.auth.getUser();
+
     // Belum login
     if(!user){
 
