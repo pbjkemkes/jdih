@@ -1,38 +1,58 @@
 (async()=>{
 
-const {
-data:{user}
-}
-=
-await sb.auth.getUser();
+    const {
+        data:{user}
+    } = await sb.auth.getUser();
 
-if(!user){
+    // Belum login
+    if(!user){
 
-location="masuk.html";
+        location="masuk.html";
+        return;
 
-return;
+    }
 
-}
+    // Hanya email Kemenkes
+    if(!user.email.endsWith("@kemkes.go.id")){
 
-if(!user.email.endsWith("@kemkes.go.id")){
+        await sb.auth.signOut();
 
-await sb.auth.signOut();
+        location="masuk.html";
 
-location="masuk.html";
+        return;
 
-return;
+    }
 
-}
+    // Catat login sekali per session browser
+    if(!sessionStorage.getItem("login_logged")){
 
-await sb
-.from("access_log")
-.insert({
+        try{
 
-email:user.email,
+            await sb
+            .from("access_log")
+            .insert({
 
-halaman:
-location.pathname
+                email:user.email,
 
-});
+                halaman:location.pathname
+
+            });
+
+            sessionStorage.setItem(
+                "login_logged",
+                "1"
+            );
+
+        }
+        catch(err){
+
+            console.error(
+                "Gagal mencatat log:",
+                err
+            );
+
+        }
+
+    }
 
 })();
