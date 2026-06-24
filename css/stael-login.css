@@ -68,7 +68,6 @@ background:#00887f;
 
 }
 
-```css
 .cards{
 
 display:flex;
@@ -117,4 +116,13 @@ background:#00a79d;
 
 color:white;
 
+}
+
+a{
+  color:#00887f;
+  text-decoration:none;
+}
+
+a:hover{
+  color:#00a79d;
 }
