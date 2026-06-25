@@ -239,7 +239,64 @@ document.getElementById("tahun").innerText =
 new Date().getFullYear();
 
 </script>
-    
+    <!-- alerta -->
+<div class="modal fade" id="idleModal" tabindex="-1">
+
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h4 class="modal-title">
+          <i class="glyphicon glyphicon-time"></i>
+          Session Akan Berakhir
+        </h4>
+
+      </div>
+
+      <div class="modal-body">
+
+        <p>
+          Anda tidak melakukan aktivitas selama beberapa waktu.
+        </p>
+
+        <p>
+          Sistem akan logout otomatis dalam
+          <strong>
+            <span id="countdown">60</span>
+          </strong>
+          detik.
+        </p>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-success"
+          id="stayLogin">
+
+          Tetap Login
+
+        </button>
+
+        <button
+          class="btn btn-danger"
+          id="logoutNow">
+
+          Keluar
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 </body>
 
 </html>
