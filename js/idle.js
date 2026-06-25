@@ -1,71 +1,100 @@
-const IDLE_TIME = 30 * 60 * 1000;      // 30 menit
-const WARNING_TIME = 29 * 60 * 1000;   // peringatan setelah 29 menit
+const IDLE_TIME = 30 * 60 * 1000;
+const WARNING_TIME = 29 * 60 * 1000;
 
 let idleTimer;
 let warningTimer;
-let warningShown = false;
+let countdownTimer;
 
-function resetIdleTimer(){
+function logout(){
 
-    clearTimeout(idleTimer);
-    clearTimeout(warningTimer);
-
-    warningShown = false;
-
-    warningTimer = setTimeout(()=>{
-
-        warningShown = true;
-
-        alert(
-            "Anda tidak melakukan aktivitas selama 29 menit.\n\nSistem akan logout otomatis dalam 1 menit."
-        );
-
-    }, WARNING_TIME);
-
-    idleTimer = setTimeout(async()=>{
-
-        try{
-
-            await sb.auth.signOut();
-
-        }catch(e){
-
-            console.error(e);
-
-        }
+    sb.auth.signOut().finally(()=>{
 
         sessionStorage.clear();
 
-        // Hapus jika memang ingin menghapus seluruh localStorage
-        // localStorage.clear();
+        location.href="masuk.html";
 
-        alert("Session berakhir karena tidak ada aktivitas.");
-
-        location.href = "masuk.html";
-
-    }, IDLE_TIME);
+    });
 
 }
 
+function resetIdle(){
+
+    clearTimeout(idleTimer);
+    clearTimeout(warningTimer);
+    clearInterval(countdownTimer);
+
+    $("#idleModal").modal("hide");
+
+    warningTimer=setTimeout(showWarning,WARNING_TIME);
+
+    idleTimer=setTimeout(logout,IDLE_TIME);
+
+}
+
+function showWarning(){
+
+    let sisa=60;
+
+    document.getElementById("countdown").innerHTML=sisa;
+
+    $("#idleModal").modal({
+
+        backdrop:"static",
+
+        keyboard:false
+
+    });
+
+    countdownTimer=setInterval(()=>{
+
+        sisa--;
+
+        document.getElementById("countdown").innerHTML=sisa;
+
+        if(sisa<=0){
+
+            clearInterval(countdownTimer);
+
+        }
+
+    },1000);
+
+}
+
+document
+.getElementById("stayLogin")
+.onclick=()=>{
+
+    resetIdle();
+
+};
+
+document
+.getElementById("logoutNow")
+.onclick=()=>{
+
+    logout();
+
+};
+
 [
-    "mousemove",
-    "mousedown",
-    "mouseup",
-    "keydown",
-    "keypress",
-    "touchstart",
-    "touchmove",
-    "scroll",
-    "click"
-].forEach(event=>{
+"mousemove",
+"mousedown",
+"mouseup",
+"keydown",
+"keypress",
+"scroll",
+"touchstart",
+"touchmove",
+"click"
+].forEach(evt=>{
 
     document.addEventListener(
-        event,
-        resetIdleTimer,
+        evt,
+        resetIdle,
         true
     );
 
 });
 
-window.addEventListener("load", resetIdleTimer);
-window.addEventListener("focus", resetIdleTimer);
+window.onload=resetIdle;
