@@ -1,19 +1,47 @@
 const SESSION_TIME = 30 * 60 * 1000; // 30 menit
 
-setTimeout(async () => {
+(async()=>{
 
-    try {
-        await sb.auth.signOut();
-    } catch (e) {
-        console.error(e);
+    const loginTime =
+    Number(sessionStorage.getItem("loginTime"));
+
+    if(!loginTime){
+
+        location.href = "masuk.html";
+        return;
+
     }
 
-    sessionStorage.clear();
+    const elapsed =
+    Date.now() - loginTime;
 
-    localStorage.clear();
+    const remaining =
+    SESSION_TIME - elapsed;
 
-    alert("Sesi login telah berakhir. Silakan login kembali.");
+    if(remaining <= 0){
 
-    location.href = "masuk.html";
+        await sb.auth.signOut();
 
-}, SESSION_TIME);
+        sessionStorage.clear();
+
+        location.href = "masuk.html";
+
+        return;
+
+    }
+
+    setTimeout(async()=>{
+
+        alert(
+            "Sesi login telah berakhir.\nSilakan login kembali."
+        );
+
+        await sb.auth.signOut();
+
+        sessionStorage.clear();
+
+        location.href = "masuk.html";
+
+    }, remaining);
+
+})();
