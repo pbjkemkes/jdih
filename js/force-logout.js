@@ -9,7 +9,6 @@ const SESSION_TIME = 30 * 60 * 1000; // 30 menit
 
         location.href = "masuk.html";
         return;
-
     }
 
     const elapsed =
