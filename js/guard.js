@@ -4,26 +4,15 @@
 
         const {
             data: { session },
-            error: sessionError
+            error
         } = await sb.auth.getSession();
 
-        if (sessionError) {
-            throw sessionError;
-        }
-
-        if (!session) {
+        if (error || !session) {
             location.replace("masuk.html");
             return;
         }
 
-        const {
-            data: { user },
-            error: userError
-        } = await sb.auth.getUser();
-
-        if (userError) {
-            throw userError;
-        }
+        const user = session.user;
 
         if (!user?.email?.endsWith("@kemkes.go.id")) {
 
@@ -31,6 +20,7 @@
 
             location.replace("masuk.html");
             return;
+
         }
 
         if (!sessionStorage.getItem("login_logged")) {
@@ -67,9 +57,6 @@
     } catch (err) {
 
         console.error("GUARD ERROR:", err);
-
-        // Jangan langsung redirect saat network error
-        // supaya tidak redirect loop
 
     }
 
