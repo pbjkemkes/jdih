@@ -3,24 +3,29 @@
     try {
 
         const {
+            data: { session },
+            error: sessionError
+        } = await sb.auth.getSession();
+
+        if (sessionError) {
+            throw sessionError;
+        }
+
+        if (!session) {
+            location.replace("masuk.html");
+            return;
+        }
+
+        const {
             data: { user },
-            error
+            error: userError
         } = await sb.auth.getUser();
 
-        if (error) {
-            console.error("Gagal mengambil user:", error);
-            location.replace("masuk.html");
-            return;
+        if (userError) {
+            throw userError;
         }
 
-        // Belum login
-        if (!user) {
-            location.replace("masuk.html");
-            return;
-        }
-
-        // Hanya email Kemenkes
-        if (!user.email?.endsWith("@kemkes.go.id")) {
+        if (!user?.email?.endsWith("@kemkes.go.id")) {
 
             await sb.auth.signOut();
 
@@ -28,7 +33,6 @@
             return;
         }
 
-        // Catat login sekali per session browser
         if (!sessionStorage.getItem("login_logged")) {
 
             const { error: logError } = await sb
@@ -43,27 +47,29 @@
                 });
 
             if (logError) {
+
                 console.error(
                     "Gagal mencatat log:",
                     logError
                 );
+
             } else {
+
                 sessionStorage.setItem(
                     "login_logged",
                     "1"
                 );
+
             }
 
         }
 
     } catch (err) {
 
-        console.error(
-            "Guard network error:",
-            err
-        );
+        console.error("GUARD ERROR:", err);
 
-        location.replace("masuk.html");
+        // Jangan langsung redirect saat network error
+        // supaya tidak redirect loop
 
     }
 
