@@ -1,115 +1,69 @@
-(async()=>{
+(async () => {
 
-    const {
-        data:{user}
-    } = await sb.auth.getUser();
+    try {
 
-    if(!user){
+        const {
+            data: { user },
+            error
+        } = await sb.auth.getUser();
 
-        location="masuk.html";
-        return;
-
-    }
-
-    if(!user.email.endsWith("@kemkes.go.id")){
-
-        await sb.auth.signOut();
-
-        location="masuk.html";
-
-        return;
-
-    }
-
-    if(!sessionStorage.getItem("login_logged")){
-
-        try{
-
-            await sb
-            .from("access_log")
-            .insert({
-
-                email:user.email,
-
-                halaman:location.pathname,
-
-                browser:navigator.userAgent,
-
-                login_date:
-                new Date()
-                .toISOString()
-                .substring(0,10)
-
-            });
-
-            sessionStorage.setItem(
-                "login_logged",
-                "1"
-            );
-
-        }
-        catch(err){
-
-            console.error(err);
-
+        if (error) {
+            console.error("Gagal mengambil user:", error);
+            location.replace("masuk.html");
+            return;
         }
 
-    }
+        // Belum login
+        if (!user) {
+            location.replace("masuk.html");
+            return;
+        }
 
-})();(async()=>{
+        // Hanya email Kemenkes
+        if (!user.email?.endsWith("@kemkes.go.id")) {
 
-    const {
-        data:{user}
-    } = await sb.auth.getUser();
+            await sb.auth.signOut();
 
-    // Belum login
-    if(!user){
+            location.replace("masuk.html");
+            return;
+        }
 
-        location="masuk.html";
-        return;
+        // Catat login sekali per session browser
+        if (!sessionStorage.getItem("login_logged")) {
 
-    }
+            const { error: logError } = await sb
+                .from("access_log")
+                .insert({
+                    email: user.email,
+                    halaman: location.pathname,
+                    browser: navigator.userAgent,
+                    login_date: new Date()
+                        .toISOString()
+                        .substring(0, 10)
+                });
 
-    // Hanya email Kemenkes
-    if(!user.email.endsWith("@kemkes.go.id")){
-
-        await sb.auth.signOut();
-
-        location="masuk.html";
-
-        return;
-
-    }
-
-    // Catat login sekali per session browser
-    if(!sessionStorage.getItem("login_logged")){
-
-        try{
-
-            await sb
-            .from("access_log")
-            .insert({
-
-                email:user.email,
-
-                halaman:location.pathname
-
-            });
-
-            sessionStorage.setItem(
-                "login_logged",
-                "1"
-            );
+            if (logError) {
+                console.error(
+                    "Gagal mencatat log:",
+                    logError
+                );
+            } else {
+                sessionStorage.setItem(
+                    "login_logged",
+                    "1"
+                );
+            }
 
         }
-        catch(err){
 
-            console.error(
-                "Gagal mencatat log:",
-                err
-            );
+    } catch (err) {
 
-        }
+        console.error(
+            "Guard network error:",
+            err
+        );
+
+        location.replace("masuk.html");
 
     }
 
