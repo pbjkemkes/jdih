@@ -17,38 +17,40 @@
         if (!user?.email?.endsWith("@kemkes.go.id")) {
 
             await sb.auth.signOut();
+            sessionStorage.clear();
 
             location.replace("masuk.html");
             return;
-
         }
 
-        if (!sessionStorage.getItem("login_logged")) {
+        if (
+            !sessionStorage.getItem("login_logged") &&
+            location.pathname.endsWith("index.html")
+        ) {
 
-            const { error: logError } = await sb
-                .from("access_log")
-                .insert({
-                    email: user.email,
-                    halaman: location.pathname,
-                    browser: navigator.userAgent,
-                    login_date: new Date()
-                        .toISOString()
-                        .substring(0, 10)
-                });
+            const { error: logError } =
+            await sb
+            .from("access_log")
+            .insert({
 
-            if (logError) {
+                email: user.email,
 
-                console.error(
-                    "Gagal mencatat log:",
-                    logError
-                );
+                halaman: location.pathname,
 
-            } else {
+                browser: navigator.userAgent
+
+            });
+
+            if (!logError) {
 
                 sessionStorage.setItem(
                     "login_logged",
                     "1"
                 );
+
+            } else {
+
+                console.error(logError);
 
             }
 
@@ -56,7 +58,13 @@
 
     } catch (err) {
 
-        console.error("GUARD ERROR:", err);
+        console.error(err);
+
+        await sb.auth.signOut();
+
+        sessionStorage.clear();
+
+        location.replace("masuk.html");
 
     }
 
