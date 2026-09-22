@@ -1,46 +1,95 @@
 const SESSION_TIME = 30 * 60 * 1000; // 30 menit
 
-(async()=>{
+(async () => {
 
-    const loginTime =
-    Number(sessionStorage.getItem("loginTime"));
+    try {
 
-    if(!loginTime){
+        // Cek apakah user benar-benar sudah login
+        const {
+            data: { session },
+            error
+        } = await sb.auth.getSession();
 
-        location.href = "masuk.html";
-        return;
-    }
+        if (error || !session) {
 
-    const elapsed =
-    Date.now() - loginTime;
+            console.log("Belum ada session aktif.");
 
-    const remaining =
-    SESSION_TIME - elapsed;
+            return;
+        }
 
-    if(remaining <= 0){
+        let loginTime =
+            Number(sessionStorage.getItem("loginTime"));
 
-        await sb.auth.signOut();
+        // Kalau session ada tetapi loginTime belum ada,
+        // buat waktu login sekarang
+        if (!loginTime) {
 
-        sessionStorage.clear();
+            loginTime = Date.now();
 
-        location.href = "masuk.html";
+            sessionStorage.setItem(
+                "loginTime",
+                loginTime
+            );
 
-        return;
+        }
 
-    }
+        const elapsed =
+            Date.now() - loginTime;
 
-    setTimeout(async()=>{
+        const remaining =
+            SESSION_TIME - elapsed;
 
-        alert(
-            "Sesi login telah berakhir.\nSilakan login kembali."
+        // Session sudah lebih dari 30 menit
+        if (remaining <= 0) {
+
+            await sb.auth.signOut();
+
+            sessionStorage.clear();
+
+            location.replace("masuk.html");
+
+            return;
+        }
+
+        console.log(
+            "Session tersisa:",
+            Math.ceil(remaining / 60000),
+            "menit"
         );
 
-        await sb.auth.signOut();
+        // Logout ketika waktu habis
+        setTimeout(async () => {
 
-        sessionStorage.clear();
+            try {
 
-        location.href = "masuk.html";
+                await sb.auth.signOut();
 
-    }, remaining);
+            } catch (err) {
+
+                console.error(
+                    "Gagal logout:",
+                    err
+                );
+
+            }
+
+            sessionStorage.clear();
+
+            alert(
+                "Sesi login telah berakhir.\nSilakan login kembali."
+            );
+
+            location.replace("masuk.html");
+
+        }, remaining);
+
+    } catch (err) {
+
+        console.error(
+            "FORCE LOGOUT ERROR:",
+            err
+        );
+
+    }
 
 })();
