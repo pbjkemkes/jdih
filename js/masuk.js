@@ -2,33 +2,60 @@ document
 .getElementById("loginForm")
 .addEventListener(
 "submit",
-async(e)=>{
+async (e) => {
 
-e.preventDefault();
+    e.preventDefault();
 
-const email =
-document.getElementById("email").value.trim();
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
 
-const password =
-document.getElementById("password").value;
+    const password =
+        document
+        .getElementById("password")
+        .value;
 
-const {error}
-=
-await sb.auth.signInWithPassword({
+    const { error } =
+        await sb.auth.signInWithPassword({
 
-email,
-password
+            email,
+            password
 
-});
+        });
 
-if(error){
+    if (error) {
 
-alert(error.message);
+        alert(error.message);
 
-}else{
+        return;
 
-location="index.html";
+    }
 
-}
+    // =========================
+    // WAKTU MULAI SESSION
+    // =========================
+
+    sessionStorage.setItem(
+        "loginTime",
+        Date.now()
+    );
+
+    sessionStorage.setItem(
+        "login_logged",
+        "0"
+    );
+
+    sessionStorage.setItem(
+        "userEmail",
+        email
+    );
+
+    // =========================
+    // MASUK KE APLIKASI
+    // =========================
+
+    location.replace("index.html");
 
 });
