@@ -8,8 +8,10 @@
         } = await sb.auth.getSession();
 
         if (error || !session) {
+
             location.replace("masuk.html");
             return;
+
         }
 
         const user = session.user;
@@ -17,40 +19,49 @@
         if (!user?.email?.endsWith("@kemkes.go.id")) {
 
             await sb.auth.signOut();
+
             sessionStorage.clear();
 
             location.replace("masuk.html");
+
             return;
         }
 
-        if (
-            !sessionStorage.getItem("login_logged") &&
-            location.pathname.endsWith("index.html")
-        ) {
+        // =====================================
+        // CATAT LOGIN HANYA SEKALI PER SESSION
+        // =====================================
+
+        const sudahDicatat =
+            sessionStorage.getItem("login_logged");
+
+        if (sudahDicatat !== "1") {
 
             const { error: logError } =
             await sb
-            .from("access_log")
-            .insert({
+                .from("access_log")
+                .insert({
 
-                email: user.email,
+                    email: user.email,
 
-                halaman: location.pathname,
+                    halaman: location.pathname,
 
-                browser: navigator.userAgent
+                    browser: navigator.userAgent
 
-            });
+                });
 
-            if (!logError) {
+            if (logError) {
+
+                console.error(
+                    "Gagal mencatat login:",
+                    logError
+                );
+
+            } else {
 
                 sessionStorage.setItem(
                     "login_logged",
                     "1"
                 );
-
-            } else {
-
-                console.error(logError);
 
             }
 
@@ -58,13 +69,10 @@
 
     } catch (err) {
 
-        console.error(err);
-
-        await sb.auth.signOut();
-
-        sessionStorage.clear();
-
-        location.replace("masuk.html");
+        console.error(
+            "GUARD ERROR:",
+            err
+        );
 
     }
 
