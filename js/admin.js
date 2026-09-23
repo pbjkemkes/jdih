@@ -1,109 +1,209 @@
-(async()=>{
+(async () => {
 
-    const {data,error} =
-    await sb
-    .from("access_log")
-    .select("*")
-    .order(
-        "login_time",
-        {ascending:false}
-    );
+    const {
+        data,
+        error
+    } = await sb
+        .from("access_log")
+        .select("*")
+        .order("login_time", {
+            ascending: false
+        });
 
-    if(error){
+    if (error) {
 
-        console.error(error);
+        console.error(
+            "Gagal mengambil access_log:",
+            error
+        );
+
+        alert(
+            "Gagal membaca data login:\n" +
+            error.message
+        );
+
         return;
-
     }
 
-    let map={};
+    console.log("DATA ACCESS LOG:", data);
 
-    data.forEach(r=>{
+    let map = {};
 
-        if(!map[r.email]){
+    data.forEach(row => {
 
-            map[r.email]={
+        const email = row.email;
 
-                jumlah:0,
+        if (!email) return;
 
-                terakhir:r.login_time
+        if (!map[email]) {
 
+            map[email] = {
+                jumlah: 0,
+                terakhir: row.login_time
             };
 
         }
 
-        map[r.email].jumlah++;
+        map[email].jumlah++;
+
+        // Karena data sudah ORDER BY login_time DESC,
+        // login pertama yang ditemukan adalah yang terbaru.
+        if (
+            row.login_time &&
+            new Date(row.login_time) >
+            new Date(map[email].terakhir)
+        ) {
+
+            map[email].terakhir =
+                row.login_time;
+
+        }
 
     });
 
-    // Total user unik
+
+    // ==========================
+    // TOTAL USER
+    // ==========================
+
     document.getElementById(
         "totalUser"
-    ).innerHTML=
-    Object.keys(map).length;
+    ).textContent =
+        Object.keys(map).length;
 
-    // Total login
+
+    // ==========================
+    // TOTAL LOGIN
+    // ==========================
+
     document.getElementById(
         "totalLogin"
-    ).innerHTML=
-    data.length;
+    ).textContent =
+        data.length;
 
-    // Login hari ini
-    const hariIni =
-    new Date()
-    .toISOString()
-    .substring(0,10);
+
+    // ==========================
+    // LOGIN HARI INI
+    // ==========================
+
+    const sekarang = new Date();
+
+    const awalHari = new Date(
+        sekarang.getFullYear(),
+        sekarang.getMonth(),
+        sekarang.getDate()
+    );
+
+    const akhirHari = new Date(
+        sekarang.getFullYear(),
+        sekarang.getMonth(),
+        sekarang.getDate() + 1
+    );
+
+    const jumlahHariIni =
+        data.filter(row => {
+
+            if (!row.login_time)
+                return false;
+
+            const waktu =
+                new Date(row.login_time);
+
+            return (
+                waktu >= awalHari &&
+                waktu < akhirHari
+            );
+
+        }).length;
+
 
     document.getElementById(
         "loginHariIni"
-    ).innerHTML =
-    data.filter(
-        x=>x.login_time.startsWith(hariIni)
-    ).length;
+    ).textContent =
+        jumlahHariIni;
 
-    // Isi tabel
-    let html="";
+
+    // ==========================
+    // TABEL
+    // ==========================
+
+    let html = "";
 
     Object.entries(map)
-    .forEach(([email,v])=>{
+        .forEach(([email, user]) => {
 
-        html += `
-        <tr>
+            let loginTerakhir = "-";
 
-            <td>${email}</td>
+            if (user.terakhir) {
 
-            <td>
-            ${new Date(
-                v.terakhir
-            ).toLocaleString()}
-            </td>
+                loginTerakhir =
+                    new Date(
+                        user.terakhir
+                    ).toLocaleString(
+                        "id-ID",
+                        {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit"
+                        }
+                    );
 
-            <td>${v.jumlah}</td>
+            }
 
-        </tr>
-        `;
+            html += `
+                <tr>
 
-    });
+                    <td>
+                        ${email}
+                    </td>
+
+                    <td>
+                        ${loginTerakhir}
+                    </td>
+
+                    <td>
+                        ${user.jumlah}
+                    </td>
+
+                </tr>
+            `;
+
+        });
+
 
     document
-    .querySelector("tbody")
-    .innerHTML = html;
+        .querySelector("#tbl tbody")
+        .innerHTML = html;
 
-    // Export Excel
+
+    // ==========================
+    // EXPORT EXCEL
+    // ==========================
+
     document
-    .getElementById("excel")
-    .onclick = ()=>{
+        .getElementById("excel")
+        .addEventListener(
+            "click",
+            () => {
 
-        const wb =
-        XLSX.utils.table_to_book(
-            document.getElementById("tbl")
+                const table =
+                    document.getElementById("tbl");
+
+                const workbook =
+                    XLSX.utils.table_to_book(
+                        table
+                    );
+
+                XLSX.writeFile(
+                    workbook,
+                    "log-user.xlsx"
+                );
+
+            }
         );
 
-        XLSX.writeFile(
-            wb,
-            "log-user.xlsx"
-        );
-
-    };
 
 })();
