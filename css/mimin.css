@@ -10,6 +10,18 @@ body{
     padding:20px;
 }
 
+.admin-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+#userName{
+    color:#008f87;
+    font-size:14px;
+}
+
 .cards{
     display:flex;
     gap:20px;
