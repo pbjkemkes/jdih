@@ -1,14 +1,17 @@
 (async()=>{
 
-const {
-data:{user}
-}=await sb.auth.getUser();
+    const {
+        data:{user}
+    } = await sb.auth.getUser();
 
-if(user){
+    const userName =
+        document.getElementById("userName");
 
-document.getElementById("userName")
-.innerHTML=user.email;
+    if(user && userName){
 
-}
+        userName.textContent =
+            user.email;
+
+    }
 
 })();
