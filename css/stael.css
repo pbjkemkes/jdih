@@ -37,14 +37,15 @@ color:#2c3e50;
 .topbar{
 position:fixed;
 top:10px;
-right:58px;
+right:50px;
 display:flex;
 gap:10px;
 align-items:center;
 z-index:9999;
 background-color: #ffffffed;
-  padding: 10px;
-  margin-top: -10px;
+padding: 10px;
+margin-top: -10px;
+border-radius: 0 0 7px 7px;
 }
 
 #userName{
