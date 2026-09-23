@@ -42,10 +42,10 @@ async (e) => {
         Date.now()
     );
 
-    sessionStorage.setItem(
-        "login_logged",
-        "0"
-    );
+    //sessionStorage.setItem(
+        //"login_logged",
+        //"0"
+    //);
 
     sessionStorage.setItem(
         "userEmail",
